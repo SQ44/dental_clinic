@@ -1,0 +1,1 @@
+{"version":3,"file":"update-invoice.dto.js","sourceRoot":"","sources":["../../../../src/modules/billing/dto/update-invoice.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,qDAAmE;AACnE,sDAAkD;AAElD,MAAa,gBAAgB;IAG3B,MAAM,CAAiB;IAIvB,OAAO,CAAU;CAClB;AARD,4CAQC;AALC;IAFC,IAAA,4BAAU,GAAE;IACZ,IAAA,wBAAM,EAAC,8BAAa,CAAC;;gDACC;AAIvB;IAFC,IAAA,4BAAU,GAAE;IACZ,IAAA,8BAAY,GAAE;;iDACE"}
