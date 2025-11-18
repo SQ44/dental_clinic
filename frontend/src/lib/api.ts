@@ -2,7 +2,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Patient, CreatePatientDto, UpdatePatientDto, LoginCredentials, AuthResponse, Appointment, CreateAppointmentDto, UpdateAppointmentDto, Dentist, Invoice, CreateInvoiceDto, UpdateInvoiceDto, BillingItem, CreateBillingItemDto, UpdateBillingItemDto, Payment, CreatePaymentDto } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// Prefer a relative API path so the frontend uses the reverse proxy (nginx) in
+// development and production. If a full URL is needed, set NEXT_PUBLIC_API_URL.
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
