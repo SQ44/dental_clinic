@@ -6,13 +6,17 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies (including devDependencies) in the builder stage so the build tooling
+# such as the Nest CLI and TypeScript are available. Production image will only install
+# production dependencies below.
+RUN npm ci
 
 # Copy source code
 COPY . .
 
 # Build the application
+# Ensure build tooling is installed and executable, then build
+RUN chmod -R a+rx ./node_modules/.bin || true
 RUN npm run build
 
 # Production stage
