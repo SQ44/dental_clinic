@@ -29,7 +29,7 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy built application from builder stage
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.ts ./
+COPY --from=builder /app/next.config.js ./
 
 # Create non-root user (Debian slim uses groupadd/useradd).
 # Create the user's home directory at build time so ownership is correct.

@@ -98,6 +98,9 @@ export default function LoginPage() {
 
           <div className="text-center text-sm text-gray-600">
             <p>Demo credentials: any email with password "password"</p>
+            Default admin user created: admin@dentalclinic.com / Admin123!
+            Demo dentist user created: dentist@dentalclinic.com / Dentist123!
+            Demo staff user created: staff@dentalclinic.com / Staff123!
           </div>
         </form>
       </div>
