@@ -9,7 +9,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # Mount the init.sql directory (if you have one) into the init folder inside the image.
+      # Previously this attempted to mount a directory to a file which causes the container to fail.
+      - ./init.sql:/docker-entrypoint-initdb.d:ro
     networks:
       - dental_network
     healthcheck:
@@ -26,11 +28,12 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USERNAME: ${POSTGRES_USER:-dental_user}
-      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
-      DATABASE_NAME: ${POSTGRES_DB:-dental_clinic}
+      # Backend expects DB_* env vars (see backend/src/config/database.config.ts)
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${POSTGRES_USER:-dental_user}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB:-dental_clinic}
       JWT_SECRET: ${JWT_SECRET}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
