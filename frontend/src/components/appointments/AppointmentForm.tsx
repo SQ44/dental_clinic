@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { appointmentsApi, patientsApi, dentistsApi } from '@/lib/api';
 import { Patient, Dentist, CreateAppointmentDto, UpdateAppointmentDto, Appointment, AppointmentStatus } from '@/types';
+import { formControlClasses, formHintClasses, formLabelClasses } from '@/lib/formStyles';
 
 interface AppointmentFormProps {
   appointment?: Appointment;
@@ -78,131 +79,160 @@ export default function AppointmentForm({ appointment, isEdit = false }: Appoint
     }));
   };
 
+  const inputClassName = `${formControlClasses}`;
+
   return (
-    <div className="max-w-2xl mx-auto">
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="mx-auto max-w-2xl">
+      <form onSubmit={handleSubmit} className="space-y-8">
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {error}
           </div>
         )}
 
-        <div>
-          <label htmlFor="patientId" className="block text-sm font-medium text-gray-700">
-            Patient *
-          </label>
-          <select
-            id="patientId"
-            name="patientId"
-            required
-            value={formData.patientId}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value={0}>Select a patient</option>
-            {patients.map((patient) => (
-              <option key={patient.id} value={patient.id}>
-                {patient.firstName} {patient.lastName} - {patient.email}
-              </option>
-            ))}
-          </select>
-        </div>
+        <section className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900">Participants</h3>
+            <p className="text-sm text-slate-500">Assign the right patient and clinical team.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label htmlFor="patientId" className={formLabelClasses}>
+                Patient *
+              </label>
+              <p className={formHintClasses}>Select the patient who will attend this appointment.</p>
+              <select
+                id="patientId"
+                name="patientId"
+                required
+                value={formData.patientId}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              >
+                <option value={0}>Select a patient</option>
+                {patients.map((patient) => (
+                  <option key={patient.id} value={patient.id}>
+                    {patient.firstName} {patient.lastName} — {patient.email}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <div>
-          <label htmlFor="dentistId" className="block text-sm font-medium text-gray-700">
-            Dentist *
-          </label>
-          <select
-            id="dentistId"
-            name="dentistId"
-            required
-            value={formData.dentistId}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value={0}>Select a dentist</option>
-            {dentists.map((dentist) => (
-              <option key={dentist.id} value={dentist.id}>
-                Dr. {dentist.firstName} {dentist.lastName} - {dentist.specialty}
-              </option>
-            ))}
-          </select>
-        </div>
+            <div>
+              <label htmlFor="dentistId" className={formLabelClasses}>
+                Dentist *
+              </label>
+              <p className={formHintClasses}>Choose the provider responsible for this visit.</p>
+              <select
+                id="dentistId"
+                name="dentistId"
+                required
+                value={formData.dentistId}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              >
+                <option value={0}>Select a dentist</option>
+                {dentists.map((dentist) => (
+                  <option key={dentist.id} value={dentist.id}>
+                    Dr. {dentist.firstName} {dentist.lastName} — {dentist.specialty}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </section>
 
-        <div>
-          <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-700">
-            Appointment Date & Time *
-          </label>
-          <input
-            type="datetime-local"
-            id="appointmentDate"
-            name="appointmentDate"
-            required
-            value={formData.appointmentDate}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+        <section className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900">Scheduling</h3>
+            <p className="text-sm text-slate-500">Set when the appointment happens and how long it lasts.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <label htmlFor="appointmentDate" className={formLabelClasses}>
+                Appointment Date &amp; Time *
+              </label>
+              <input
+                type="datetime-local"
+                id="appointmentDate"
+                name="appointmentDate"
+                required
+                value={formData.appointmentDate}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              />
+            </div>
 
-        <div>
-          <label htmlFor="durationMinutes" className="block text-sm font-medium text-gray-700">
-            Duration (minutes)
-          </label>
-          <input
-            type="number"
-            id="durationMinutes"
-            name="durationMinutes"
-            min="1"
-            value={formData.durationMinutes}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
+            <div>
+              <label htmlFor="durationMinutes" className={formLabelClasses}>
+                Duration (minutes)
+              </label>
+              <p className={formHintClasses}>Default is 30 minutes—adjust as needed.</p>
+              <input
+                type="number"
+                id="durationMinutes"
+                name="durationMinutes"
+                min="1"
+                value={formData.durationMinutes}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              />
+            </div>
+          </div>
+        </section>
 
-        <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-            Status
-          </label>
-          <select
-            id="status"
-            name="status"
-            value={formData.status}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value={AppointmentStatus.SCHEDULED}>Scheduled</option>
-            <option value={AppointmentStatus.COMPLETED}>Completed</option>
-            <option value={AppointmentStatus.CANCELLED}>Cancelled</option>
-          </select>
-        </div>
+        <section className="space-y-4">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900">Status &amp; Notes</h3>
+            <p className="text-sm text-slate-500">Track progress and capture any prep information.</p>
+          </div>
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <label htmlFor="status" className={formLabelClasses}>
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              >
+                <option value={AppointmentStatus.SCHEDULED}>Scheduled</option>
+                <option value={AppointmentStatus.COMPLETED}>Completed</option>
+                <option value={AppointmentStatus.CANCELLED}>Cancelled</option>
+              </select>
+            </div>
 
-        <div>
-          <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
-            Notes
-          </label>
-          <textarea
-            id="notes"
-            name="notes"
-            rows={4}
-            value={formData.notes}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Additional notes about the appointment..."
-          />
-        </div>
+            <div>
+              <label htmlFor="notes" className={formLabelClasses}>
+                Notes
+              </label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows={4}
+                value={formData.notes}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+                placeholder="Add prep instructions, medical notes, or visit goals..."
+              />
+            </div>
+          </div>
+        </section>
 
-        <div className="flex justify-end space-x-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
           <button
             type="button"
             onClick={() => router.back()}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+            className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
+            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60"
           >
             {loading ? 'Saving...' : (isEdit ? 'Update Appointment' : 'Create Appointment')}
           </button>

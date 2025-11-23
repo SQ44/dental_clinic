@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { billingApi } from '@/lib/api';
 import { UpdateInvoiceDto, Invoice, InvoiceStatus } from '@/types';
+import Link from 'next/link';
+import FormPageLayout from '@/components/FormPageLayout';
+import { formControlClasses, formHintClasses, formLabelClasses } from '@/lib/formStyles';
 
 export default function EditInvoicePage() {
   const params = useParams();
@@ -64,113 +66,86 @@ export default function EditInvoicePage() {
     }));
   };
 
-  if (fetchLoading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading invoice...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!invoice) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600">Invoice not found</p>
-          <Link href="/billing" className="text-blue-600 hover:text-blue-800 mt-4 inline-block">
-            Back to Billing
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  const inputClassName = `${formControlClasses}`;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link href={`/billing/${invoiceId}`} className="text-blue-600 hover:text-blue-800">
-                ← Back to Invoice
+    <FormPageLayout
+      title={invoice ? `Edit Invoice #${invoice.id}` : 'Edit Invoice'}
+      description="Adjust invoice status and payment expectations to keep receivables accurate."
+      badge="Billing"
+      backHref={`/billing/${invoiceId}`}
+      backLabel="Invoice"
+    >
+      {fetchLoading ? (
+        <div className="flex flex-col items-center justify-center py-12 text-sm text-gray-500">
+          <div className="mb-3 h-10 w-10 animate-spin rounded-full border-b-2 border-indigo-500"></div>
+          Loading invoice details...
+        </div>
+      ) : !invoice ? (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-6 text-center text-sm text-amber-700">
+          We couldn’t find that invoice. Please return to Billing and try again.
+        </div>
+      ) : (
+        <>
+          {error && (
+            <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div>
+              <label htmlFor="status" className={formLabelClasses}>
+                Status
+              </label>
+              <p className={formHintClasses}>Reflect the latest payment stage for clear reporting.</p>
+              <select
+                id="status"
+                name="status"
+                value={formData.status || ''}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              >
+                <option value="">Select status</option>
+                <option value={InvoiceStatus.PENDING}>{InvoiceStatus.PENDING}</option>
+                <option value={InvoiceStatus.PAID}>{InvoiceStatus.PAID}</option>
+                <option value={InvoiceStatus.OVERDUE}>{InvoiceStatus.OVERDUE}</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="dueDate" className={formLabelClasses}>
+                Due Date
+              </label>
+              <p className={formHintClasses}>Optional—set when payment should be completed.</p>
+              <input
+                type="date"
+                id="dueDate"
+                name="dueDate"
+                value={formData.dueDate || ''}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+              <Link
+                href={`/billing/${invoiceId}`}
+                className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+              >
+                Cancel
               </Link>
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60"
+              >
+                {loading ? 'Updating...' : 'Update Invoice'}
+              </button>
             </div>
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Edit Invoice #{invoice.id}</h1>
-            </div>
-            <div className="flex items-center">
-              {/* Empty div for spacing */}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              {error && (
-                <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                    Status
-                  </label>
-                  <select
-                    id="status"
-                    name="status"
-                    value={formData.status || ''}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  >
-                    <option value="">Select status</option>
-                    <option value={InvoiceStatus.PENDING}>{InvoiceStatus.PENDING}</option>
-                    <option value={InvoiceStatus.PAID}>{InvoiceStatus.PAID}</option>
-                    <option value={InvoiceStatus.OVERDUE}>{InvoiceStatus.OVERDUE}</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700">
-                    Due Date
-                  </label>
-                  <input
-                    type="date"
-                    id="dueDate"
-                    name="dueDate"
-                    value={formData.dueDate || ''}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-                </div>
-
-                <div className="flex justify-end space-x-3">
-                  <Link
-                    href={`/billing/${invoiceId}`}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                  >
-                    Cancel
-                  </Link>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
-                  >
-                    {loading ? 'Updating...' : 'Update Invoice'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+          </form>
+        </>
+      )}
+    </FormPageLayout>
   );
 }

@@ -1,161 +1,91 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/hooks/useAuth';
+import DashboardShell from '@/components/DashboardShell';
+import StatCard from '@/components/StatCard';
+import RevenueChart from '@/components/RevenueChart';
+import RecentPatients from '@/components/RecentPatients';
+import { useDashboardData } from '@/hooks/useDashboardData';
 import Link from 'next/link';
-
 export const dynamic = 'force-dynamic';
 
 export default function DashboardPage() {
-  const { user, logout } = useAuth();
+  const { data, loading, error } = useDashboardData();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">
-                Dental Clinic Management
-              </h1>
+    <DashboardShell>
+      {loading && <div className="p-4 bg-white rounded shadow">Loading dashboard...</div>}
+      {error && <div className="p-4 bg-red-50 text-red-700 rounded shadow">{error}</div>}
+
+      {!loading && data && (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <StatCard title="Patients" value={data.patientsCount} icon={<svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>} />
+            <StatCard title="Appointments Today" value={data.appointmentsToday} icon={<svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10a2 2 0 002 2h4a2 2 0 002-2V11M9 11h6"/></svg>} accent={'bg-indigo-50 text-indigo-600'} />
+            <StatCard title="Revenue (This Month)" value={`$${data.revenueThisMonth.toFixed(2)}`} icon={<svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 11V9a3 3 0 013-3h1m-4 8v2a3 3 0 003 3h1m-4-8H7a3 3 0 00-3 3v1"/></svg>} accent={'bg-green-50 text-green-600'} />
+            <StatCard title="Pending Payments" value={data.invoices.filter((i: any) => i.status !== 'paid').length} icon={<svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2"/></svg>} accent={'bg-yellow-50 text-yellow-600'} />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="bg-white rounded-lg shadow p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-lg font-semibold">Revenue (last 6 months)</h2>
+                <Link href="/billing" className="text-sm text-indigo-600 hover:underline">View invoices</Link>
+              </div>
+              <RevenueChart data={data.revenueHistory} labels={Array.from({length: data.revenueHistory.length}, (_,i)=>{
+                const d = new Date();
+                d.setMonth(d.getMonth() - (data.revenueHistory.length - 1 - i));
+                return d.toLocaleString(undefined, { month: 'short' });
+              })} />
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-700">Welcome, {user?.email}</span>
-              <button
-                onClick={logout}
-                className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium"
-              >
-                Logout
-              </button>
+
+            <div className="lg:col-span-1">
+              <RecentPatients patients={data.recentPatients} />
             </div>
           </div>
-        </div>
-      </nav>
-
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Patient Management
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        Manage patient records
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="mt-5">
-                  <div className="-ml-2 -mt-2 flex flex-wrap items-bottom">
-                    <Link
-                      href="/patients"
-                      className="ml-2 mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      View Patients
-                    </Link>
-                    <Link
-                      href="/patients/new"
-                      className="ml-2 mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      Add Patient
-                    </Link>
-                  </div>
-                </div>
-              </div>
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Upcoming Appointments</h2>
+              <Link href="/appointments" className="text-sm text-indigo-600 hover:underline">View all</Link>
             </div>
-
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 4v10a2 2 0 002 2h4a2 2 0 002-2V11M9 11h6" />
-                    </svg>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Appointments
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        Schedule and manage appointments
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="mt-5">
-                  <div className="-ml-2 -mt-2 flex flex-wrap items-bottom">
-                    <Link
-                      href="/appointments"
-                      className="ml-2 mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      View Appointments
-                    </Link>
-                    <Link
-                      href="/appointments/calendar"
-                      className="ml-2 mt-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      Calendar View
-                    </Link>
-                    <Link
-                      href="/appointments/new"
-                      className="ml-2 mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      New Appointment
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white overflow-hidden shadow rounded-lg">
-              <div className="p-5">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <div className="ml-5 w-0 flex-1">
-                    <dl>
-                      <dt className="text-sm font-medium text-gray-500 truncate">
-                        Billing
-                      </dt>
-                      <dd className="text-lg font-medium text-gray-900">
-                        Manage invoices and payments
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-                <div className="mt-5">
-                  <div className="-ml-2 -mt-2 flex flex-wrap items-bottom">
-                    <Link
-                      href="/billing"
-                      className="ml-2 mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      View Invoices
-                    </Link>
-                    <Link
-                      href="/billing/new"
-                      className="ml-2 mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                    >
-                      Create Invoice
-                    </Link>
-                  </div>
-                </div>
-              </div>
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs text-gray-500 uppercase">
+                    <th className="py-2">Time</th>
+                    <th className="py-2">Patient</th>
+                    <th className="py-2">Dentist</th>
+                    <th className="py-2">Type</th>
+                    <th className="py-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  <tr className="hover:bg-gray-50 transition-colors">
+                    <td className="py-3">09:00 AM</td>
+                    <td className="py-3">Jane Doe</td>
+                    <td className="py-3">Dr. John Smith</td>
+                    <td className="py-3">Cleaning</td>
+                    <td className="py-3"><span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Confirmed</span></td>
+                  </tr>
+                  <tr className="hover:bg-gray-50 transition-colors">
+                    <td className="py-3">10:30 AM</td>
+                    <td className="py-3">Bob Williams</td>
+                    <td className="py-3">Dr. Jane Smith</td>
+                    <td className="py-3">Filling</td>
+                    <td className="py-3"><span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Pending</span></td>
+                  </tr>
+                  <tr className="hover:bg-gray-50 transition-colors">
+                    <td className="py-3">01:00 PM</td>
+                    <td className="py-3">Alice Brown</td>
+                    <td className="py-3">Dr. John Smith</td>
+                    <td className="py-3">Extraction</td>
+                    <td className="py-3"><span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">Scheduled</span></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-      </main>
-    </div>
+        </>
+      )}
+    </DashboardShell>
   );
 }

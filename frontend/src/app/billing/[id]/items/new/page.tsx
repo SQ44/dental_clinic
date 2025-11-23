@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { billingApi } from '@/lib/api';
 import { CreateBillingItemDto, BillingItemType } from '@/types';
+import Link from 'next/link';
+import FormPageLayout from '@/components/FormPageLayout';
+import { formControlClasses, formHintClasses, formLabelClasses } from '@/lib/formStyles';
 
 export default function NewBillingItemPage() {
   const params = useParams();
@@ -50,131 +52,120 @@ export default function NewBillingItemPage() {
     }));
   };
 
+  const inputClassName = `${formControlClasses}`;
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link href={`/billing/${invoiceId}`} className="text-blue-600 hover:text-blue-800">
-                ← Back to Invoice
-              </Link>
+    <FormPageLayout
+      title="Add Billing Item"
+      description="Document the treatment or product that should be billed on this invoice."
+      badge="Billing"
+      backHref={`/billing/${invoiceId}`}
+      backLabel="Invoice"
+    >
+      {error && (
+        <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <div>
+          <label htmlFor="description" className={formLabelClasses}>
+            Description
+          </label>
+          <p className={formHintClasses}>Include procedure specifics or product notes for transparency.</p>
+          <textarea
+            id="description"
+            name="description"
+            required
+            rows={3}
+            value={formData.description}
+            onChange={handleChange}
+            className={`${inputClassName} mt-2`}
+            placeholder="Composite filling for tooth #12"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div>
+            <label htmlFor="type" className={formLabelClasses}>
+              Type
+            </label>
+            <p className={formHintClasses}>Choose how this line item should be categorized.</p>
+            <select
+              id="type"
+              name="type"
+              required
+              value={formData.type}
+              onChange={handleChange}
+              className={`${inputClassName} mt-2`}
+            >
+              <option value={BillingItemType.TREATMENT}>{BillingItemType.TREATMENT}</option>
+              <option value={BillingItemType.PROCEDURE}>{BillingItemType.PROCEDURE}</option>
+            </select>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+              <label htmlFor="quantity" className={formLabelClasses}>
+                Quantity
+              </label>
+              <p className={formHintClasses}>How many units should be billed?</p>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                required
+                min="1"
+                value={formData.quantity}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              />
             </div>
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Add Billing Item</h1>
-            </div>
-            <div className="flex items-center">
-              {/* Empty div for spacing */}
+
+            <div>
+              <label htmlFor="unitPrice" className={formLabelClasses}>
+                Unit Price ($)
+              </label>
+              <p className={formHintClasses}>Enter the agreed cost per unit.</p>
+              <input
+                type="number"
+                id="unitPrice"
+                name="unitPrice"
+                required
+                min="0"
+                step="0.01"
+                value={formData.unitPrice}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              />
             </div>
           </div>
         </div>
-      </nav>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              {error && (
-                <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                  {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                    Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    required
-                    rows={3}
-                    value={formData.description}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Describe the treatment or procedure"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                    Type
-                  </label>
-                  <select
-                    id="type"
-                    name="type"
-                    required
-                    value={formData.type}
-                    onChange={handleChange}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  >
-                    <option value={BillingItemType.TREATMENT}>{BillingItemType.TREATMENT}</option>
-                    <option value={BillingItemType.PROCEDURE}>{BillingItemType.PROCEDURE}</option>
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
-                      Quantity
-                    </label>
-                    <input
-                      type="number"
-                      id="quantity"
-                      name="quantity"
-                      required
-                      min="1"
-                      value={formData.quantity}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="unitPrice" className="block text-sm font-medium text-gray-700">
-                      Unit Price ($)
-                    </label>
-                    <input
-                      type="number"
-                      id="unitPrice"
-                      name="unitPrice"
-                      required
-                      min="0"
-                      step="0.01"
-                      value={formData.unitPrice}
-                      onChange={handleChange}
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-md">
-                  <div className="text-sm text-gray-600">
-                    <strong>Total: ${((formData.quantity || 1) * formData.unitPrice).toFixed(2)}</strong>
-                  </div>
-                </div>
-
-                <div className="flex justify-end space-x-3">
-                  <Link
-                    href={`/billing/${invoiceId}`}
-                    className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-                  >
-                    Cancel
-                  </Link>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
-                  >
-                    {loading ? 'Adding...' : 'Add Item'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div className="rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-5">
+          <p className="text-sm font-semibold text-indigo-900">
+            Line Item Total: ${((formData.quantity || 1) * formData.unitPrice).toFixed(2)}
+          </p>
+          <p className="text-xs text-indigo-700">This amount will be added to the invoice balance.</p>
         </div>
-      </main>
-    </div>
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <Link
+            href={`/billing/${invoiceId}`}
+            className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+          >
+            Cancel
+          </Link>
+          <button
+            type="submit"
+            disabled={loading}
+            className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60"
+          >
+            {loading ? 'Adding...' : 'Add Item'}
+          </button>
+        </div>
+      </form>
+    </FormPageLayout>
   );
 }
