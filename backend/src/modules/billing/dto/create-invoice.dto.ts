@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsDateString, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsDateString,
+  IsEnum,
+} from 'class-validator';
 import { InvoiceStatus } from '../invoice.entity';
 
 export class CreateInvoiceDto {

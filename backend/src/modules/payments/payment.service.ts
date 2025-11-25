@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import Stripe from 'stripe';
@@ -21,7 +25,9 @@ export class PaymentService {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
   }
 
-  async createPaymentIntent(createPaymentDto: CreatePaymentDto): Promise<Payment> {
+  async createPaymentIntent(
+    createPaymentDto: CreatePaymentDto,
+  ): Promise<Payment> {
     const { invoiceId, amount, currency = 'usd' } = createPaymentDto;
 
     // Verify invoice exists and is not already paid
@@ -32,7 +38,9 @@ export class PaymentService {
 
     // Check if amount matches invoice total
     if (parseFloat(invoice.totalAmount.toString()) !== amount) {
-      throw new BadRequestException('Payment amount does not match invoice total');
+      throw new BadRequestException(
+        'Payment amount does not match invoice total',
+      );
     }
 
     try {
@@ -61,10 +69,19 @@ export class PaymentService {
     }
   }
 
+  async findAll(status?: PaymentStatus): Promise<Payment[]> {
+    const where = status ? { status } : {};
+    return this.paymentRepository.find({
+      where,
+      relations: ['invoice', 'invoice.patient'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   async findPaymentById(id: number): Promise<Payment> {
     const payment = await this.paymentRepository.findOne({
       where: { id },
-      relations: ['invoice'],
+      relations: ['invoice', 'invoice.patient'],
     });
     if (!payment) {
       throw new NotFoundException(`Payment with ID ${id} not found`);
@@ -75,7 +92,7 @@ export class PaymentService {
   async findPaymentsByInvoice(invoiceId: number): Promise<Payment[]> {
     return this.paymentRepository.find({
       where: { invoiceId },
-      relations: ['invoice'],
+      relations: ['invoice', 'invoice.patient'],
     });
   }
 
@@ -89,17 +106,21 @@ export class PaymentService {
     let event: Stripe.Event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(rawBody, signature, endpointSecret);
+      event = this.stripe.webhooks.constructEvent(
+        rawBody,
+        signature,
+        endpointSecret,
+      );
     } catch (err) {
       throw new BadRequestException('Webhook signature verification failed');
     }
 
     switch (event.type) {
       case 'payment_intent.succeeded':
-        await this.handlePaymentSucceeded(event.data.object as Stripe.PaymentIntent);
+        await this.handlePaymentSucceeded(event.data.object);
         break;
       case 'payment_intent.payment_failed':
-        await this.handlePaymentFailed(event.data.object as Stripe.PaymentIntent);
+        await this.handlePaymentFailed(event.data.object);
         break;
       default:
         // Ignore other event types
@@ -107,7 +128,9 @@ export class PaymentService {
     }
   }
 
-  private async handlePaymentSucceeded(paymentIntent: Stripe.PaymentIntent): Promise<void> {
+  private async handlePaymentSucceeded(
+    paymentIntent: Stripe.PaymentIntent,
+  ): Promise<void> {
     const payment = await this.paymentRepository.findOne({
       where: { stripePaymentIntentId: paymentIntent.id },
       relations: ['invoice'],
@@ -127,7 +150,9 @@ export class PaymentService {
     });
   }
 
-  private async handlePaymentFailed(paymentIntent: Stripe.PaymentIntent): Promise<void> {
+  private async handlePaymentFailed(
+    paymentIntent: Stripe.PaymentIntent,
+  ): Promise<void> {
     const payment = await this.paymentRepository.findOne({
       where: { stripePaymentIntentId: paymentIntent.id },
     });

@@ -18,7 +18,9 @@ export class BillingItem {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Invoice, (invoice) => invoice.billingItems, { nullable: false })
+  @ManyToOne(() => Invoice, (invoice) => invoice.billingItems, {
+    nullable: false,
+  })
   @JoinColumn({ name: 'invoice_id' })
   invoice: Invoice;
 

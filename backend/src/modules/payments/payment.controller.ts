@@ -1,11 +1,29 @@
-import { Controller, Post, Body, Get, Param, ParseIntPipe, Headers, BadRequestException, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  ParseIntPipe,
+  Headers,
+  BadRequestException,
+  UseGuards,
+  Query,
+} from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { PaymentStatus } from './payment.entity';
 
 @Controller('payments')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  findAll(@Query('status') status?: PaymentStatus) {
+    return this.paymentService.findAll(status);
+  }
 
   @Post('create-intent')
   @UseGuards(JwtAuthGuard)

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { billingApi, patientsApi, appointmentsApi } from '@/lib/api';
-import { CreateInvoiceDto, Patient, Appointment } from '@/types';
+import { CreateInvoiceDto, Patient, Appointment, InvoiceStatus } from '@/types';
 import Link from 'next/link';
 import FormPageLayout from '@/components/FormPageLayout';
 import { formControlClasses, formHintClasses, formLabelClasses } from '@/lib/formStyles';
@@ -18,7 +18,7 @@ export default function NewInvoicePage() {
   const [formData, setFormData] = useState<CreateInvoiceDto>({
     patientId: 0,
     appointmentId: 0,
-    status: undefined,
+    status: InvoiceStatus.PENDING,
     dueDate: '',
   });
 
@@ -88,7 +88,7 @@ export default function NewInvoicePage() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-8">
-          <section className="space-y-4">
+          <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/40 p-6">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">Associations</h2>
               <p className="text-sm text-slate-500">Link the invoice to the right patient and appointment.</p>
@@ -141,12 +141,31 @@ export default function NewInvoicePage() {
             </div>
           </section>
 
-          <section className="space-y-4">
+          <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/40 p-6">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">Payment Terms</h2>
               <p className="text-sm text-slate-500">Optional due date to keep receivables organized.</p>
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div>
+                <label htmlFor="status" className={formLabelClasses}>
+                  Status
+                </label>
+                <p className={formHintClasses}>Defaults to pending but can be overridden.</p>
+                <select
+                  id="status"
+                  name="status"
+                  value={formData.status || ''}
+                  onChange={handleChange}
+                  className={`${inputClassName} mt-2`}
+                >
+                  <option value="">Select status</option>
+                  <option value={InvoiceStatus.PENDING}>{InvoiceStatus.PENDING}</option>
+                  <option value={InvoiceStatus.PAID}>{InvoiceStatus.PAID}</option>
+                  <option value={InvoiceStatus.OVERDUE}>{InvoiceStatus.OVERDUE}</option>
+                </select>
+              </div>
+
               <div>
                 <label htmlFor="dueDate" className={formLabelClasses}>
                   Due Date

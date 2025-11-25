@@ -4,9 +4,15 @@ import { User, UserRole } from '../modules/auth/user.entity';
 import { DataSource } from 'typeorm';
 import { Patient } from '../modules/patients/patient.entity';
 import { Dentist } from '../modules/appointments/dentist.entity';
-import { Appointment, AppointmentStatus } from '../modules/appointments/appointment.entity';
+import {
+  Appointment,
+  AppointmentStatus,
+} from '../modules/appointments/appointment.entity';
 import { Invoice, InvoiceStatus } from '../modules/billing/invoice.entity';
-import { BillingItem, BillingItemType } from '../modules/billing/billing-item.entity';
+import {
+  BillingItem,
+  BillingItemType,
+} from '../modules/billing/billing-item.entity';
 import { Payment, PaymentStatus } from '../modules/payments/payment.entity';
 
 async function seed() {
@@ -31,14 +37,16 @@ async function seed() {
 
     await adminUser.hashPassword();
     await userRepository.save(adminUser);
-    console.log('Default admin user created: admin@dentalclinic.com / Admin123!');
+    console.log(
+      'Default admin user created: admin@dentalclinic.com / Admin123!',
+    );
   } else {
     console.log('Admin user already exists');
   }
 
   // Create demo dentist user
   const existingDentist = await userRepository.findOne({
-    where: { email: 'dentist@dentalclinic.com' }
+    where: { email: 'dentist@dentalclinic.com' },
   });
 
   if (!existingDentist) {
@@ -52,12 +60,14 @@ async function seed() {
 
     await dentistUser.hashPassword();
     await userRepository.save(dentistUser);
-    console.log('Demo dentist user created: dentist@dentalclinic.com / Dentist123!');
+    console.log(
+      'Demo dentist user created: dentist@dentalclinic.com / Dentist123!',
+    );
   }
 
   // Create demo staff user
   const existingStaff = await userRepository.findOne({
-    where: { email: 'staff@dentalclinic.com' }
+    where: { email: 'staff@dentalclinic.com' },
   });
 
   if (!existingStaff) {
@@ -295,8 +305,18 @@ async function seed() {
             status: InvoiceStatus.PENDING,
             dueInDays: 14,
             items: [
-              { description: 'Comprehensive oral exam', type: BillingItemType.PROCEDURE, quantity: 1, unitPrice: 120 },
-              { description: 'Adult prophylaxis cleaning', type: BillingItemType.TREATMENT, quantity: 1, unitPrice: 95 },
+              {
+                description: 'Comprehensive oral exam',
+                type: BillingItemType.PROCEDURE,
+                quantity: 1,
+                unitPrice: 120,
+              },
+              {
+                description: 'Adult prophylaxis cleaning',
+                type: BillingItemType.TREATMENT,
+                quantity: 1,
+                unitPrice: 95,
+              },
             ],
             payment: {
               status: PaymentStatus.SUCCEEDED,
@@ -307,8 +327,18 @@ async function seed() {
             status: InvoiceStatus.PAID,
             dueInDays: 0,
             items: [
-              { description: 'Root canal therapy', type: BillingItemType.TREATMENT, quantity: 1, unitPrice: 850 },
-              { description: 'Post-operative medication', type: BillingItemType.PROCEDURE, quantity: 1, unitPrice: 45 },
+              {
+                description: 'Root canal therapy',
+                type: BillingItemType.TREATMENT,
+                quantity: 1,
+                unitPrice: 850,
+              },
+              {
+                description: 'Post-operative medication',
+                type: BillingItemType.PROCEDURE,
+                quantity: 1,
+                unitPrice: 45,
+              },
             ],
             payment: {
               status: PaymentStatus.SUCCEEDED,
@@ -319,8 +349,18 @@ async function seed() {
             status: InvoiceStatus.PENDING,
             dueInDays: 21,
             items: [
-              { description: 'Orthodontic consultation', type: BillingItemType.PROCEDURE, quantity: 1, unitPrice: 150 },
-              { description: '3D imaging', type: BillingItemType.PROCEDURE, quantity: 1, unitPrice: 200 },
+              {
+                description: 'Orthodontic consultation',
+                type: BillingItemType.PROCEDURE,
+                quantity: 1,
+                unitPrice: 150,
+              },
+              {
+                description: '3D imaging',
+                type: BillingItemType.PROCEDURE,
+                quantity: 1,
+                unitPrice: 200,
+              },
             ],
             payment: {
               status: PaymentStatus.PENDING,
@@ -331,7 +371,12 @@ async function seed() {
             status: InvoiceStatus.OVERDUE,
             dueInDays: -5,
             items: [
-              { description: 'Emergency evaluation', type: BillingItemType.PROCEDURE, quantity: 1, unitPrice: 160 },
+              {
+                description: 'Emergency evaluation',
+                type: BillingItemType.PROCEDURE,
+                quantity: 1,
+                unitPrice: 160,
+              },
             ],
             payment: {
               status: PaymentStatus.FAILED,
@@ -342,8 +387,18 @@ async function seed() {
             status: InvoiceStatus.PAID,
             dueInDays: 3,
             items: [
-              { description: 'Crown placement', type: BillingItemType.PROCEDURE, quantity: 1, unitPrice: 1100 },
-              { description: 'Temporary crown fabrication', type: BillingItemType.TREATMENT, quantity: 1, unitPrice: 180 },
+              {
+                description: 'Crown placement',
+                type: BillingItemType.PROCEDURE,
+                quantity: 1,
+                unitPrice: 1100,
+              },
+              {
+                description: 'Temporary crown fabrication',
+                type: BillingItemType.TREATMENT,
+                quantity: 1,
+                unitPrice: 180,
+              },
             ],
             payment: {
               status: PaymentStatus.SUCCEEDED,
@@ -406,10 +461,14 @@ async function seed() {
           paymentCounter += 1;
         }
 
-        console.log('Invoices, billing items, and payments created successfully!');
+        console.log(
+          'Invoices, billing items, and payments created successfully!',
+        );
       }
     } else {
-      console.warn('Unable to seed appointments due to missing patients or dentists.');
+      console.warn(
+        'Unable to seed appointments due to missing patients or dentists.',
+      );
     }
   }
 

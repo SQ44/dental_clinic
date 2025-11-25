@@ -82,7 +82,7 @@ export default function AppointmentForm({ appointment, isEdit = false }: Appoint
   const inputClassName = `${formControlClasses}`;
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto w-full">
       <form onSubmit={handleSubmit} className="space-y-8">
         {error && (
           <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -90,12 +90,12 @@ export default function AppointmentForm({ appointment, isEdit = false }: Appoint
           </div>
         )}
 
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/40 p-6">
           <div>
             <h3 className="text-lg font-semibold text-slate-900">Participants</h3>
             <p className="text-sm text-slate-500">Assign the right patient and clinical team.</p>
           </div>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label htmlFor="patientId" className={formLabelClasses}>
                 Patient *
@@ -142,7 +142,7 @@ export default function AppointmentForm({ appointment, isEdit = false }: Appoint
           </div>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/40 p-6">
           <div>
             <h3 className="text-lg font-semibold text-slate-900">Scheduling</h3>
             <p className="text-sm text-slate-500">Set when the appointment happens and how long it lasts.</p>
@@ -181,13 +181,13 @@ export default function AppointmentForm({ appointment, isEdit = false }: Appoint
           </div>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/40 p-6">
           <div>
             <h3 className="text-lg font-semibold text-slate-900">Status &amp; Notes</h3>
             <p className="text-sm text-slate-500">Track progress and capture any prep information.</p>
           </div>
-          <div className="grid grid-cols-1 gap-6">
-            <div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="md:col-span-1">
               <label htmlFor="status" className={formLabelClasses}>
                 Status
               </label>
@@ -204,7 +204,7 @@ export default function AppointmentForm({ appointment, isEdit = false }: Appoint
               </select>
             </div>
 
-            <div>
+            <div className="md:col-span-2">
               <label htmlFor="notes" className={formLabelClasses}>
                 Notes
               </label>

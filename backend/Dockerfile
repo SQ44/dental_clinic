@@ -33,12 +33,16 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 
+# Copy entrypoint script
+COPY entrypoint.sh ./entrypoint.sh
+
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nestjs -u 1001
 
 # Change ownership of the app directory
 RUN chown -R nestjs:nodejs /app
+RUN chmod +x ./entrypoint.sh
 USER nestjs
 
 # Expose port
@@ -48,5 +52,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node --version || exit 1
 
-# Start the application
-CMD ["npm", "run", "start:prod"]
+# Start the application via entrypoint
+ENTRYPOINT ["./entrypoint.sh"]

@@ -11,7 +11,14 @@ import { BillingModule } from './modules/billing/billing.module';
 import { PaymentModule } from './modules/payments/payment.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(databaseConfig), AuthModule, PatientModule, AppointmentModule, BillingModule, PaymentModule],
+  imports: [
+    TypeOrmModule.forRoot(databaseConfig),
+    AuthModule,
+    PatientModule,
+    AppointmentModule,
+    BillingModule,
+    PaymentModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

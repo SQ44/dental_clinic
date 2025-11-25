@@ -60,13 +60,13 @@ export default function NewPatientPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-10">
-        <section className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-8">
+        <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/50 p-6">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Personal Details</h2>
             <p className="text-sm text-slate-500">Used for the patient record and insurance submissions.</p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div>
               <label htmlFor="firstName" className={formLabelClasses}>
                 First Name *
@@ -101,7 +101,7 @@ export default function NewPatientPage() {
               />
             </div>
 
-            <div>
+            <div className="md:col-span-1">
               <label htmlFor="dateOfBirth" className={formLabelClasses}>
                 Date of Birth
               </label>
@@ -118,13 +118,13 @@ export default function NewPatientPage() {
           </div>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/50 p-6">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Contact Information</h2>
             <p className="text-sm text-slate-500">We use this to send reminders and share treatment plans.</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label htmlFor="email" className={formLabelClasses}>
                 Email *
@@ -159,7 +159,7 @@ export default function NewPatientPage() {
             </div>
           </div>
 
-          <div>
+          <div className="md:col-span-2">
             <label htmlFor="address" className={formLabelClasses}>
               Address
             </label>
@@ -176,7 +176,7 @@ export default function NewPatientPage() {
           </div>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/50 p-6">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Medical Background</h2>
             <p className="text-sm text-slate-500">Share allergies, chronic conditions, and other context for safe care.</p>

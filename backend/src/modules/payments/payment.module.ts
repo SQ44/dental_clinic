@@ -7,10 +7,7 @@ import { Invoice } from '../billing/invoice.entity';
 import { BillingModule } from '../billing/billing.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Payment, Invoice]),
-    BillingModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Payment, Invoice]), BillingModule],
   controllers: [PaymentController],
   providers: [PaymentService],
   exports: [PaymentService],

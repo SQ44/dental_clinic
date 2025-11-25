@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Patient, CreatePatientDto, UpdatePatientDto, LoginCredentials, AuthResponse, Appointment, CreateAppointmentDto, UpdateAppointmentDto, Dentist, Invoice, CreateInvoiceDto, UpdateInvoiceDto, BillingItem, CreateBillingItemDto, UpdateBillingItemDto, Payment, CreatePaymentDto } from '@/types';
+import { Patient, CreatePatientDto, UpdatePatientDto, LoginCredentials, AuthResponse, Appointment, CreateAppointmentDto, UpdateAppointmentDto, Dentist, Invoice, CreateInvoiceDto, UpdateInvoiceDto, BillingItem, CreateBillingItemDto, UpdateBillingItemDto, Payment, CreatePaymentDto, PaymentStatus } from '@/types';
 
 // Prefer a relative API path so the frontend uses the reverse proxy (nginx) in
 // development and production. If a full URL is needed, set NEXT_PUBLIC_API_URL.
@@ -96,12 +96,8 @@ export const appointmentsApi = {
 // For now, dentists API - assuming they are seeded or managed separately
 export const dentistsApi = {
   getAll: async (): Promise<Dentist[]> => {
-    // Since there's no dentist controller, we'll mock this for now
-    // In a real app, you'd have a dentist endpoint
-    return [
-      { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com', specialty: 'General Dentistry', licenseNumber: '12345', createdAt: new Date().toISOString() },
-      { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com', specialty: 'Orthodontics', licenseNumber: '67890', createdAt: new Date().toISOString() },
-    ];
+    const response = await api.get('/dentists');
+    return response.data;
   },
 };
 
@@ -153,6 +149,13 @@ export const billingApi = {
 };
 
 export const paymentsApi = {
+  getAll: async (status?: PaymentStatus): Promise<Payment[]> => {
+    const response = await api.get('/payments', {
+      params: status ? { status } : undefined,
+    });
+    return response.data;
+  },
+
   createPaymentIntent: async (payment: CreatePaymentDto): Promise<Payment> => {
     const response = await api.post('/payments/create-intent', payment);
     return response.data;

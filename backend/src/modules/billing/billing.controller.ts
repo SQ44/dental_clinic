@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { BillingService } from './billing.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
@@ -28,7 +38,10 @@ export class BillingController {
   }
 
   @Patch('invoices/:id')
-  updateInvoice(@Param('id', ParseIntPipe) id: number, @Body() updateInvoiceDto: UpdateInvoiceDto) {
+  updateInvoice(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateInvoiceDto: UpdateInvoiceDto,
+  ) {
     return this.billingService.updateInvoice(id, updateInvoiceDto);
   }
 
@@ -39,17 +52,28 @@ export class BillingController {
 
   // Billing item endpoints
   @Post('invoices/:invoiceId/items')
-  createBillingItem(@Param('invoiceId', ParseIntPipe) invoiceId: number, @Body() createBillingItemDto: CreateBillingItemDto) {
-    return this.billingService.createBillingItem({ ...createBillingItemDto, invoiceId });
+  createBillingItem(
+    @Param('invoiceId', ParseIntPipe) invoiceId: number,
+    @Body() createBillingItemDto: CreateBillingItemDto,
+  ) {
+    return this.billingService.createBillingItem({
+      ...createBillingItemDto,
+      invoiceId,
+    });
   }
 
   @Get('invoices/:invoiceId/items')
-  findBillingItemsByInvoice(@Param('invoiceId', ParseIntPipe) invoiceId: number) {
+  findBillingItemsByInvoice(
+    @Param('invoiceId', ParseIntPipe) invoiceId: number,
+  ) {
     return this.billingService.findBillingItemsByInvoice(invoiceId);
   }
 
   @Patch('items/:id')
-  updateBillingItem(@Param('id', ParseIntPipe) id: number, @Body() updateBillingItemDto: UpdateBillingItemDto) {
+  updateBillingItem(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateBillingItemDto: UpdateBillingItemDto,
+  ) {
     return this.billingService.updateBillingItem(id, updateBillingItemDto);
   }
 

@@ -50,7 +50,9 @@ export class Invoice {
   @Column({ name: 'due_date', type: 'date', nullable: true })
   dueDate: Date;
 
-  @OneToMany(() => BillingItem, (billingItem) => billingItem.invoice, { cascade: true })
+  @OneToMany(() => BillingItem, (billingItem) => billingItem.invoice, {
+    cascade: true,
+  })
   billingItems: BillingItem[];
 
   @CreateDateColumn({ name: 'created_at' })

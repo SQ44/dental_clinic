@@ -18,15 +18,21 @@ export class AppointmentService {
     private dentistRepository: Repository<Dentist>,
   ) {}
 
-  async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
+  async create(
+    createAppointmentDto: CreateAppointmentDto,
+  ): Promise<Appointment> {
     const { patientId, dentistId, ...appointmentData } = createAppointmentDto;
 
-    const patient = await this.patientRepository.findOne({ where: { id: patientId } });
+    const patient = await this.patientRepository.findOne({
+      where: { id: patientId },
+    });
     if (!patient) {
       throw new NotFoundException(`Patient with ID ${patientId} not found`);
     }
 
-    const dentist = await this.dentistRepository.findOne({ where: { id: dentistId } });
+    const dentist = await this.dentistRepository.findOne({
+      where: { id: dentistId },
+    });
     if (!dentist) {
       throw new NotFoundException(`Dentist with ID ${dentistId} not found`);
     }
@@ -58,29 +64,42 @@ export class AppointmentService {
     return appointment;
   }
 
-  async update(id: number, updateAppointmentDto: UpdateAppointmentDto): Promise<Appointment> {
+  async update(
+    id: number,
+    updateAppointmentDto: UpdateAppointmentDto,
+  ): Promise<Appointment> {
     const appointment = await this.findOne(id);
 
     if (updateAppointmentDto.patientId) {
-      const patient = await this.patientRepository.findOne({ where: { id: updateAppointmentDto.patientId } });
+      const patient = await this.patientRepository.findOne({
+        where: { id: updateAppointmentDto.patientId },
+      });
       if (!patient) {
-        throw new NotFoundException(`Patient with ID ${updateAppointmentDto.patientId} not found`);
+        throw new NotFoundException(
+          `Patient with ID ${updateAppointmentDto.patientId} not found`,
+        );
       }
       appointment.patient = patient;
       appointment.patientId = updateAppointmentDto.patientId;
     }
 
     if (updateAppointmentDto.dentistId) {
-      const dentist = await this.dentistRepository.findOne({ where: { id: updateAppointmentDto.dentistId } });
+      const dentist = await this.dentistRepository.findOne({
+        where: { id: updateAppointmentDto.dentistId },
+      });
       if (!dentist) {
-        throw new NotFoundException(`Dentist with ID ${updateAppointmentDto.dentistId} not found`);
+        throw new NotFoundException(
+          `Dentist with ID ${updateAppointmentDto.dentistId} not found`,
+        );
       }
       appointment.dentist = dentist;
       appointment.dentistId = updateAppointmentDto.dentistId;
     }
 
     if (updateAppointmentDto.appointmentDate) {
-      appointment.appointmentDate = new Date(updateAppointmentDto.appointmentDate);
+      appointment.appointmentDate = new Date(
+        updateAppointmentDto.appointmentDate,
+      );
     }
 
     Object.assign(appointment, updateAppointmentDto);

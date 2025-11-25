@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsNumber, IsString, IsEnum, IsOptional, Min } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsEnum,
+  IsOptional,
+  Min,
+} from 'class-validator';
 import { BillingItemType } from '../billing-item.entity';
 
 export class CreateBillingItemDto {

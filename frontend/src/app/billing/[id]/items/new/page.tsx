@@ -69,43 +69,43 @@ export default function NewBillingItemPage() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div>
-          <label htmlFor="description" className={formLabelClasses}>
-            Description
-          </label>
-          <p className={formHintClasses}>Include procedure specifics or product notes for transparency.</p>
-          <textarea
-            id="description"
-            name="description"
-            required
-            rows={3}
-            value={formData.description}
-            onChange={handleChange}
-            className={`${inputClassName} mt-2`}
-            placeholder="Composite filling for tooth #12"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <section className="rounded-2xl border border-gray-100 bg-slate-50/40 p-6 space-y-6">
           <div>
-            <label htmlFor="type" className={formLabelClasses}>
-              Type
+            <label htmlFor="description" className={formLabelClasses}>
+              Description
             </label>
-            <p className={formHintClasses}>Choose how this line item should be categorized.</p>
-            <select
-              id="type"
-              name="type"
+            <p className={formHintClasses}>Include procedure specifics or product notes for transparency.</p>
+            <textarea
+              id="description"
+              name="description"
               required
-              value={formData.type}
+              rows={3}
+              value={formData.description}
               onChange={handleChange}
               className={`${inputClassName} mt-2`}
-            >
-              <option value={BillingItemType.TREATMENT}>{BillingItemType.TREATMENT}</option>
-              <option value={BillingItemType.PROCEDURE}>{BillingItemType.PROCEDURE}</option>
-            </select>
+              placeholder="Composite filling for tooth #12"
+            />
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div>
+              <label htmlFor="type" className={formLabelClasses}>
+                Type
+              </label>
+              <p className={formHintClasses}>Choose how this line item should be categorized.</p>
+              <select
+                id="type"
+                name="type"
+                required
+                value={formData.type}
+                onChange={handleChange}
+                className={`${inputClassName} mt-2`}
+              >
+                <option value={BillingItemType.TREATMENT}>{BillingItemType.TREATMENT}</option>
+                <option value={BillingItemType.PROCEDURE}>{BillingItemType.PROCEDURE}</option>
+              </select>
+            </div>
+
             <div>
               <label htmlFor="quantity" className={formLabelClasses}>
                 Quantity
@@ -141,7 +141,7 @@ export default function NewBillingItemPage() {
               />
             </div>
           </div>
-        </div>
+        </section>
 
         <div className="rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-5">
           <p className="text-sm font-semibold text-indigo-900">

@@ -94,39 +94,47 @@ export default function EditInvoicePage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            <div>
-              <label htmlFor="status" className={formLabelClasses}>
-                Status
-              </label>
-              <p className={formHintClasses}>Reflect the latest payment stage for clear reporting.</p>
-              <select
-                id="status"
-                name="status"
-                value={formData.status || ''}
-                onChange={handleChange}
-                className={`${inputClassName} mt-2`}
-              >
-                <option value="">Select status</option>
-                <option value={InvoiceStatus.PENDING}>{InvoiceStatus.PENDING}</option>
-                <option value={InvoiceStatus.PAID}>{InvoiceStatus.PAID}</option>
-                <option value={InvoiceStatus.OVERDUE}>{InvoiceStatus.OVERDUE}</option>
-              </select>
-            </div>
+            <section className="space-y-4 rounded-2xl border border-gray-100 bg-slate-50/40 p-6">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900">Invoice Status</h3>
+                <p className="text-sm text-slate-500">Keep finance dashboards accurate with up-to-date tracking.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <label htmlFor="status" className={formLabelClasses}>
+                    Status
+                  </label>
+                  <p className={formHintClasses}>Reflect the latest payment stage for clear reporting.</p>
+                  <select
+                    id="status"
+                    name="status"
+                    value={formData.status || ''}
+                    onChange={handleChange}
+                    className={`${inputClassName} mt-2`}
+                  >
+                    <option value="">Select status</option>
+                    <option value={InvoiceStatus.PENDING}>{InvoiceStatus.PENDING}</option>
+                    <option value={InvoiceStatus.PAID}>{InvoiceStatus.PAID}</option>
+                    <option value={InvoiceStatus.OVERDUE}>{InvoiceStatus.OVERDUE}</option>
+                  </select>
+                </div>
 
-            <div>
-              <label htmlFor="dueDate" className={formLabelClasses}>
-                Due Date
-              </label>
-              <p className={formHintClasses}>Optional—set when payment should be completed.</p>
-              <input
-                type="date"
-                id="dueDate"
-                name="dueDate"
-                value={formData.dueDate || ''}
-                onChange={handleChange}
-                className={`${inputClassName} mt-2`}
-              />
-            </div>
+                <div>
+                  <label htmlFor="dueDate" className={formLabelClasses}>
+                    Due Date
+                  </label>
+                  <p className={formHintClasses}>Optional—set when payment should be completed.</p>
+                  <input
+                    type="date"
+                    id="dueDate"
+                    name="dueDate"
+                    value={formData.dueDate || ''}
+                    onChange={handleChange}
+                    className={`${inputClassName} mt-2`}
+                  />
+                </div>
+              </div>
+            </section>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
               <Link

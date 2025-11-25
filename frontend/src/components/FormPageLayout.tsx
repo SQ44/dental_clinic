@@ -25,7 +25,7 @@ export default function FormPageLayout({
 }: FormPageLayoutProps) {
   return (
     <DashboardShell>
-      <div className="space-y-6">
+      <div className="space-y-6 w-full max-w-5xl mx-auto">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             {badge && <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">{badge}</p>}
@@ -45,7 +45,7 @@ export default function FormPageLayout({
         </div>
 
         <div className="bg-white/95 backdrop-blur rounded-2xl border border-gray-100 shadow-xl p-6 sm:p-8">
-          {children}
+          <div className="max-w-4xl mx-auto w-full space-y-8">{children}</div>
         </div>
       </div>
     </DashboardShell>

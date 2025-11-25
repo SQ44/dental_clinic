@@ -42,7 +42,10 @@ export class BillingService {
     return invoice;
   }
 
-  async updateInvoice(id: number, updateInvoiceDto: UpdateInvoiceDto): Promise<Invoice> {
+  async updateInvoice(
+    id: number,
+    updateInvoiceDto: UpdateInvoiceDto,
+  ): Promise<Invoice> {
     const invoice = await this.findOneInvoice(id);
     Object.assign(invoice, updateInvoiceDto);
     return this.invoiceRepository.save(invoice);
@@ -53,7 +56,9 @@ export class BillingService {
     await this.invoiceRepository.remove(invoice);
   }
 
-  async createBillingItem(createBillingItemDto: CreateBillingItemDto): Promise<BillingItem> {
+  async createBillingItem(
+    createBillingItemDto: CreateBillingItemDto,
+  ): Promise<BillingItem> {
     const quantity = createBillingItemDto.quantity ?? 1;
     const total = quantity * createBillingItemDto.unitPrice;
     const billingItem = this.billingItemRepository.create({
@@ -84,11 +89,19 @@ export class BillingService {
     return item;
   }
 
-  async updateBillingItem(id: number, updateBillingItemDto: UpdateBillingItemDto): Promise<BillingItem> {
+  async updateBillingItem(
+    id: number,
+    updateBillingItemDto: UpdateBillingItemDto,
+  ): Promise<BillingItem> {
     const item = await this.findOneBillingItem(id);
     Object.assign(item, updateBillingItemDto);
-    if (updateBillingItemDto.quantity !== undefined || updateBillingItemDto.unitPrice !== undefined) {
-      item.total = (updateBillingItemDto.quantity ?? item.quantity) * (updateBillingItemDto.unitPrice ?? item.unitPrice);
+    if (
+      updateBillingItemDto.quantity !== undefined ||
+      updateBillingItemDto.unitPrice !== undefined
+    ) {
+      item.total =
+        (updateBillingItemDto.quantity ?? item.quantity) *
+        (updateBillingItemDto.unitPrice ?? item.unitPrice);
     }
     const savedItem = await this.billingItemRepository.save(item);
     // Update invoice total
@@ -109,7 +122,10 @@ export class BillingService {
       where: { invoiceId },
       select: ['total'],
     });
-    const total = items.reduce((sum, item) => sum + parseFloat(item.total.toString()), 0);
+    const total = items.reduce(
+      (sum, item) => sum + parseFloat(item.total.toString()),
+      0,
+    );
     await this.invoiceRepository.update(invoiceId, { totalAmount: total });
   }
 }
