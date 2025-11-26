@@ -31,7 +31,7 @@ export default function RevenueChart({ data, labels }: Props) {
           return <rect key={i} x={x} y={y} width={Math.max(4, barWidth - 8)} height={h} rx={3} fill="url(#g1)" opacity={0.95} />;
         })}
       </svg>
-      <div className="mt-2 text-xs text-gray-500 flex justify-between">
+      <div className="mt-2 flex justify-between text-xs text-slate-500">
         {labels?.map((l, i) => (
           <span key={i} className="truncate" style={{ width: `${100 / labels.length}%` }}>{l}</span>
         ))}

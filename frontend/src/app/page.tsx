@@ -8,19 +8,8 @@ const featureHighlights = [
     description:
       'Drag-and-drop calendars, instant confirmations, and automated reminders keep every chair productive.',
     icon: (
-      <svg
-        className="h-6 w-6 text-sky-500"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2m-8 4h8M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z"
-        />
+      <svg className="h-6 w-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2m-8 4h8M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z" />
       </svg>
     ),
   },
@@ -29,19 +18,8 @@ const featureHighlights = [
     description:
       'Stay ahead with unified patient records, treatment plans, and proactive follow-ups across your team.',
     icon: (
-      <svg
-        className="h-6 w-6 text-sky-500"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M17 20h5V10l-2-2h-3M7 20H2v-6l2-2h3m8-5a4 4 0 11-8 0 4 4 0 018 0z"
-        />
+      <svg className="h-6 w-6 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5V10l-2-2h-3M7 20H2v-6l2-2h3m8-5a4 4 0 11-8 0 4 4 0 018 0z" />
       </svg>
     ),
   },
@@ -50,19 +28,8 @@ const featureHighlights = [
     description:
       'See cash flow, insurance claims, and outstanding balances at a glance with real-time analytics.',
     icon: (
-      <svg
-        className="h-6 w-6 text-sky-500"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 10h4v11H3zm7-6h4v17h-4zm7 9h4v8h-4z"
-        />
+      <svg className="h-6 w-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h4v11H3zm7-6h4v17h-4zm7 9h4v8h-4z" />
       </svg>
     ),
   },
@@ -85,8 +52,7 @@ const workflowSteps = [
 
 const testimonials = [
   {
-    quote:
-      'Our front office finally runs itself. Missed appointments dropped by 40% within the first month.',
+    quote: 'Our front office finally runs itself. Missed appointments dropped by 40% within the first month.',
     name: 'Dr. Ana Morgan',
     role: 'Owner, BrightSmile Studio',
   },
@@ -100,18 +66,15 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white text-slate-900">
-      <header className="relative overflow-hidden bg-gradient-to-br from-white via-slate-50 to-sky-50">
-        <div
-          className="absolute -top-24 right-0 h-72 w-72 rounded-full bg-sky-300/30 blur-3xl"
-          aria-hidden="true"
-        />
-        <div className="absolute -bottom-10 left-1/3 h-56 w-56 rounded-full bg-cyan-200/40 blur-3xl" />
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-white text-slate-900">
+      <header className="relative overflow-hidden bg-gradient-to-b from-white via-sky-50 to-transparent">
+        <div className="absolute -top-28 right-0 h-72 w-72 rounded-full bg-sky-200/50 blur-3xl" aria-hidden="true" />
+        <div className="absolute bottom-0 left-1/3 h-56 w-56 rounded-full bg-rose-100/70 blur-3xl" aria-hidden="true" />
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-10 pb-20">
+        <div className="relative mx-auto max-w-6xl px-6 pt-10 pb-20">
           <nav className="flex items-center justify-between text-sm text-slate-600">
             <span className="font-semibold tracking-wide text-slate-900">Lumineer DentalOS</span>
-            <div className="hidden md:flex gap-6 text-slate-600">
+            <div className="hidden gap-6 md:flex">
               <a className="hover:text-slate-900" href="#features">
                 Platform
               </a>
@@ -122,39 +85,35 @@ export default function Home() {
                 Stories
               </a>
             </div>
-            <Link
-              href="/login"
-              className="rounded-full border border-slate-200 px-4 py-1.5 font-medium text-slate-700 hover:border-slate-400 hover:text-slate-900"
-            >
+            <Link href="/login" className="rounded-full border border-slate-200 px-4 py-1.5 font-medium text-slate-900 hover:border-sky-400">
               Sign in
             </Link>
           </nav>
 
           <div className="mt-16 grid gap-12 md:grid-cols-2 md:items-center">
             <div className="space-y-8">
-              <p className="inline-flex rounded-full bg-white px-4 py-1 text-sm text-slate-600 shadow-sm ring-1 ring-slate-100">
-                Modern care for non-logged-in visitors
+              <p className="inline-flex rounded-full bg-white px-4 py-1 text-sm text-sky-600 shadow-sm ring-1 ring-sky-100">
+                Modern care for every visitor
               </p>
               <div>
-                <h1 className="text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl">
-                  Showcase your dental clinic from any device.
+                <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
+                  Bright, friendly tooling for your dental clinic.
                 </h1>
                 <p className="mt-6 text-lg text-slate-600">
-                  Give prospective patients a stunning, responsive experience before they ever log in.
-                  Highlight treatments, availability, and your team’s expertise within a single branded
-                  home page.
+                  New patients see availability, treatments, and team highlights immediately, while staff enjoy a cohesive portal that
+                  works beautifully from desktop to mobile.
                 </p>
               </div>
               <div className="flex flex-col gap-4 sm:flex-row">
                 <Link
                   href="/login"
-                  className="flex-1 rounded-full bg-sky-500 px-6 py-3 text-center font-semibold text-white transition hover:bg-sky-400 shadow"
+                  className="flex-1 rounded-full bg-sky-500 px-6 py-3 text-center font-semibold text-white shadow-lg shadow-sky-300/60 transition hover:bg-sky-400"
                 >
                   Explore Dashboard
                 </Link>
                 <Link
                   href="/appointments"
-                  className="flex-1 rounded-full border border-slate-200 px-6 py-3 text-center font-semibold text-slate-900 transition hover:border-slate-400"
+                  className="flex-1 rounded-full border border-slate-200 px-6 py-3 text-center font-semibold text-slate-900 shadow-sm transition hover:border-sky-400 hover:text-sky-700"
                 >
                   See Availability
                 </Link>
@@ -167,16 +126,16 @@ export default function Home() {
                 ].map(([stat, label]) => (
                   <div key={label}>
                     <dt className="text-3xl font-semibold text-slate-900">{stat}</dt>
-                    <dd className="text-sm text-slate-500">{label}</dd>
+                    <dd className="text-sm">{label}</dd>
                   </div>
                 ))}
               </dl>
             </div>
 
-            <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-xl">
+            <div className="rounded-3xl border border-white bg-white/80 p-6 shadow-2xl shadow-sky-100">
               <div className="flex items-center justify-between text-sm text-slate-500">
                 <span>Today&apos;s Snapshot</span>
-                <span className="text-slate-600">Updated live</span>
+                <span className="text-emerald-500">Updated live</span>
               </div>
               <div className="mt-6 space-y-4">
                 {[
@@ -184,37 +143,35 @@ export default function Home() {
                     label: 'Open Slots',
                     value: '08',
                     progress: 'w-3/5',
-                    color: 'bg-green-400',
+                    color: 'from-emerald-400 to-emerald-500',
                   },
                   {
                     label: 'New Patient Leads',
                     value: '24',
                     progress: 'w-4/5',
-                    color: 'bg-sky-400',
+                    color: 'from-sky-400 to-blue-500',
                   },
                   {
                     label: 'Pending Payments',
                     value: '$4,320',
                     progress: 'w-2/5',
-                    color: 'bg-amber-400',
+                    color: 'from-amber-400 to-orange-400',
                   },
                 ].map((item) => (
-                  <div key={item.label} className="rounded-2xl bg-slate-50 p-4">
-                    <div className="flex items-center justify-between text-sm text-slate-600">
+                  <div key={item.label} className="rounded-2xl border border-slate-100 p-4">
+                    <div className="flex items-center justify-between text-sm text-slate-500">
                       <span>{item.label}</span>
-                      <span className="font-medium text-slate-900">{item.value}</span>
+                      <span className="font-semibold text-slate-900">{item.value}</span>
                     </div>
-                    <div className="mt-3 h-1.5 rounded-full bg-slate-100">
-                      <div className={`h-full rounded-full ${item.color} ${item.progress}`} />
+                    <div className="mt-3 h-2 rounded-full bg-slate-100">
+                      <div className={`h-full rounded-full bg-gradient-to-r ${item.color} ${item.progress}`} />
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-8 rounded-2xl bg-gradient-to-r from-sky-100 to-cyan-100 p-5 text-sm">
+              <div className="mt-8 rounded-2xl bg-gradient-to-r from-sky-100 to-cyan-100 p-5 text-sm text-slate-700">
                 <p className="font-semibold text-slate-900">Real-time patient experience</p>
-                <p className="mt-2 text-slate-600">
-                  Visitors can browse services, view openings, and request a spot without logging in.
-                </p>
+                <p className="mt-2">Visitors can browse services, view openings, and request a spot without logging in.</p>
               </div>
             </div>
           </div>
@@ -223,12 +180,13 @@ export default function Home() {
 
       <main className="space-y-24 pb-24" id="features">
         <section className="px-6">
-          <div className="mx-auto max-w-6xl rounded-3xl bg-white text-slate-900 px-8 py-16 shadow-xl">
+          <div className="mx-auto max-w-6xl rounded-3xl bg-white px-8 py-16 shadow-lg shadow-slate-200">
             <div className="max-w-3xl">
-              <h2 className="text-3xl font-semibold">Stay professional on every screen size.</h2>
+              <p className="text-sm uppercase tracking-[0.3em] text-sky-400">Platform</p>
+              <h2 className="mt-4 text-3xl font-semibold text-slate-900">Stay professional on every screen size.</h2>
               <p className="mt-4 text-lg text-slate-600">
-                From widescreen displays in the lobby to phones in a rideshare, the experience adapts
-                instantly so visitors can discover your clinic comfortably.
+                From widescreen displays in the lobby to phones in a rideshare, the experience adapts instantly so visitors can
+                discover your clinic comfortably.
               </p>
             </div>
 
@@ -236,9 +194,9 @@ export default function Home() {
               {featureHighlights.map((feature) => (
                 <article
                   key={feature.title}
-                  className="rounded-2xl border border-slate-100 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                  className="rounded-2xl border border-slate-100 bg-gradient-to-b from-white to-slate-50 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="mb-4 inline-flex rounded-xl bg-sky-50 p-3">{feature.icon}</div>
+                  <div className="mb-4 inline-flex rounded-2xl bg-slate-100 p-3">{feature.icon}</div>
                   <h3 className="text-xl font-semibold text-slate-900">{feature.title}</h3>
                   <p className="mt-3 text-slate-600">{feature.description}</p>
                 </article>
@@ -248,33 +206,30 @@ export default function Home() {
         </section>
 
         <section className="px-6" id="workflow">
-          <div className="mx-auto max-w-6xl grid gap-12 lg:grid-cols-[1.2fr,0.8fr]">
-            <div className="rounded-3xl border border-slate-100 bg-white p-10 shadow-xl">
-              <p className="text-sm uppercase tracking-[0.2em] text-slate-500">workflow</p>
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.2fr,0.8fr]">
+            <div className="rounded-3xl border border-slate-100 bg-white p-10 shadow-xl shadow-slate-200/60">
+              <p className="text-sm uppercase tracking-[0.2em] text-rose-400">Workflow</p>
               <h2 className="mt-4 text-3xl font-semibold text-slate-900">Guide visitors from hello to chair.</h2>
               <p className="mt-4 text-slate-600">
-                Each section of the public experience is designed for clarity, making it easy to show what
-                you do best and funnel leads to your team.
+                Each section of the public experience is designed for clarity, making it easy to show what you do best and funnel
+                leads to your team.
               </p>
 
-              <ol className="mt-10 space-y-6 text-slate-600">
+              <ol className="mt-10 space-y-6 text-slate-700">
                 {workflowSteps.map((step) => (
-                  <li key={step.label} className="rounded-2xl border border-slate-100 bg-slate-50 p-5">
-                    <p className="text-sm font-semibold uppercase tracking-wide text-sky-600">
-                      {step.label}
-                    </p>
-                    <p className="mt-2 text-lg text-slate-800">{step.detail}</p>
+                  <li key={step.label} className="rounded-2xl border border-slate-100 bg-slate-50/80 p-5">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-sky-500">{step.label}</p>
+                    <p className="mt-2 text-lg">{step.detail}</p>
                   </li>
                 ))}
               </ol>
             </div>
 
             <div className="space-y-6">
-              <div className="rounded-3xl border border-slate-100 bg-gradient-to-br from-white via-sky-50 to-white p-8 shadow-xl">
+              <div className="rounded-3xl bg-gradient-to-br from-sky-100 via-white to-emerald-50 p-8 shadow-lg shadow-slate-200">
                 <h3 className="text-2xl font-semibold text-slate-900">Mobile-first interface</h3>
                 <p className="mt-3 text-slate-600">
-                  Cards stack elegantly, typography scales, and key actions remain thumb-friendly for fast
-                  booking on the go.
+                  Cards stack elegantly, typography scales, and key actions remain thumb-friendly for fast booking on the go.
                 </p>
                 <ul className="mt-6 list-disc space-y-2 pl-4 text-slate-600">
                   <li>No downloads required</li>
@@ -283,17 +238,13 @@ export default function Home() {
                 </ul>
               </div>
 
-              <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-xl">
+              <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-lg shadow-slate-200">
                 <p className="text-slate-500">Security & Privacy</p>
                 <h3 className="mt-2 text-2xl font-semibold text-slate-900">Invite-only dashboard access</h3>
                 <p className="mt-3 text-slate-600">
-                  Only staff with credentials can reach operational tools, while visitors enjoy an always-on,
-                  informative overview.
+                  Only staff with credentials can reach operational tools, while visitors enjoy an always-on, informative overview.
                 </p>
-                <Link
-                  href="/login"
-                  className="mt-6 inline-flex items-center gap-2 font-semibold text-sky-600 hover:text-sky-500"
-                >
+                <Link href="/login" className="mt-6 inline-flex items-center gap-2 font-semibold text-sky-600 hover:text-sky-500">
                   Launch secure portal
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -306,14 +257,14 @@ export default function Home() {
 
         <section className="px-6" id="trust">
           <div className="mx-auto max-w-5xl text-center">
-            <p className="text-sm uppercase tracking-[0.3em] text-sky-600">trusted by teams</p>
+            <p className="text-sm uppercase tracking-[0.3em] text-amber-500">Trusted by teams</p>
             <h2 className="mt-4 text-3xl font-semibold text-slate-900">Designed with clinics in mind.</h2>
           </div>
           <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
             {testimonials.map((item) => (
               <blockquote
                 key={item.name}
-                className="rounded-3xl border border-slate-100 bg-white p-8 text-left text-slate-600 shadow"
+                className="rounded-3xl border border-slate-100 bg-white p-8 text-left text-slate-600 shadow-lg shadow-slate-200"
               >
                 <p className="text-lg leading-relaxed text-slate-900">{item.quote}</p>
                 <footer className="mt-6 text-sm text-slate-500">
@@ -326,34 +277,27 @@ export default function Home() {
         </section>
 
         <section className="px-6">
-          <div className="mx-auto max-w-5xl rounded-3xl bg-gradient-to-r from-sky-400 to-cyan-300 px-8 py-14 text-center shadow-2xl">
-            <h2 className="text-3xl font-semibold text-white">Ready to welcome new patients?</h2>
+          <div className="mx-auto max-w-5xl rounded-[2.5rem] bg-gradient-to-r from-sky-400 via-cyan-400 to-emerald-300 px-8 py-14 text-center text-white shadow-2xl shadow-sky-200">
+            <h2 className="text-3xl font-semibold">Ready to welcome new patients?</h2>
             <p className="mt-3 text-lg text-white/90">
-              Turn your public landing page into a proactive concierge. Start by logging in to configure
-              content, services, and automations.
+              Turn your public landing page into a proactive concierge. Start by logging in to configure content, services, and
+              automations.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link
-                href="/login"
-                className="w-full max-w-xs rounded-full bg-white px-6 py-3 text-center font-semibold text-sky-600"
-              >
+              <Link href="/login" className="w-full max-w-xs rounded-full bg-white px-6 py-3 text-center font-semibold text-sky-600 shadow-md">
                 Log in to DentalOS
               </Link>
-              <Link
-                href="/patients"
-                className="w-full max-w-xs rounded-full border border-white/50 px-6 py-3 text-center font-semibold text-white"
-              >
+              <Link href="/patients" className="w-full max-w-xs rounded-full border border-white/80 px-6 py-3 text-center font-semibold text-white">
                 Preview patient view
               </Link>
             </div>
-            <p className="mt-4 text-sm text-white/90">Demo access: use any email and password &quot;password&quot;.</p>
+            <p className="mt-4 text-sm text-white/80">Demo access: use any email and password &quot;password&quot;.</p>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 px-6 py-8 text-center text-sm text-slate-500">
-        <p>© {new Date().getFullYear()} Lumineer DentalOS. Modern patient experiences without a login wall.</p>
-        <p className="mt-1 font-semibold text-slate-600">Namataa Namataa</p>
+      <footer className="border-t border-slate-100 px-6 py-8 text-center text-sm text-slate-500">
+        © {new Date().getFullYear()} Lumineer DentalOS. Vibrant patient experiences without a login wall.
       </footer>
     </div>
   );
